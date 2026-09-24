@@ -11,10 +11,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 | Finanzas | [Optimización de portafolio con acciones del IPSA](02_finanzas/01_optimizacion_portafolio.ipynb) | Listo | Markowitz, CAPM y backtest fuera de muestra con costos |
 | Finanzas | [Riesgo de mercado: VaR, ES y backtesting](02_finanzas/02_metricas_de_riesgo.ipynb) | Listo | Cuatro métodos de VaR, Kupiec, Christoffersen y semáforo de Basilea |
 | Finanzas | Curva de tasas de Chile | Próximo | Nelson-Siegel, duración, convexidad y choques de tasas |
-| Series de tiempo | Descripción y descomposición del IMACEC | Próximo | Estacionalidad, raíz unitaria y autocorrelación |
-| Series de tiempo | Pronóstico de inflación | Próximo | SARIMA y ETS contra un modelo ingenuo |
-| Series de tiempo | Transmisión de la política monetaria | Próximo | VAR, causalidad de Granger e impulso-respuesta |
-| Series de tiempo | Volatilidad del dólar y del IPSA | Próximo | GARCH y VaR condicional |
+| Series de tiempo | [Descripción y descomposición](03_series_de_tiempo/01_descripcion_y_descomposicion.ipynb) | Listo | Estacionalidad del IPC, raíz unitaria y autocorrelación |
+| Series de tiempo | [Modelos univariados](03_series_de_tiempo/02_modelos_univariados.ipynb) | Listo | SARIMA y ETS contra la meta del 3%, con origen móvil |
+| Series de tiempo | [Modelos multivariados](03_series_de_tiempo/03_modelos_multivariados.ipynb) | Listo | VAR, causalidad de Granger, impulso-respuesta y pronóstico |
+| Series de tiempo | [Volatilidad con GARCH](03_series_de_tiempo/04_volatilidad_garch.ipynb) | Listo | GARCH y GJR con colas t, y VaR condicional |
 | Análisis de datos | Sismicidad en Chile | Próximo | Scraping, limpieza y ley de Gutenberg-Richter |
 | Análisis de datos | Segmentación de bancos chilenos | Próximo | Clustering con indicadores públicos de la CMF |
 
@@ -28,21 +28,27 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 
 ![Backtest de VaR](02_finanzas/figuras/backtest_var.png)
 
+**Series de tiempo.** Un SARIMA simple pronostica la inflación tan bien como un VAR con cuatro variables, y antes de 2020 la meta del 3% fue el mejor pronóstico. En riesgo, un GARCH con colas t pasa todas las pruebas de backtesting y corrige la subestimación del Expected Shortfall.
+
+![Comparación de pronósticos de inflación](03_series_de_tiempo/figuras/comparacion_pronosticos.png)
+
 ## Estructura
 
 ```
 ├── 02_finanzas/          notebooks de finanzas y sus figuras
+├── 03_series_de_tiempo/  notebooks de series de tiempo, figuras y resultados
 ├── src/dsaplicado/       paquete compartido
 │   ├── datos.py          descarga y caché de Yahoo Finance y mindicador.cl
 │   ├── portafolio.py     optimización, CAPM y backtest con rebalanceo
-│   ├── riesgo.py         VaR, ES, EWMA y pruebas de backtesting
+│   ├── riesgo.py         VaR, ES, EWMA, GARCH y pruebas de backtesting
+│   ├── series.py         estacionariedad, origen móvil y prueba de Diebold-Mariano
 │   └── graficos.py       estilo gráfico común y paleta apta para daltonismo
 ├── tests/                pruebas unitarias del paquete
 ├── datos/                datos públicos en caché para reproducir los resultados
 └── archivo/              trabajos anteriores que no se mantienen
 ```
 
-Las carpetas de análisis de datos y de series de tiempo se agregarán con los numerales 01 y 03.
+La carpeta de análisis de datos se agregará con el numeral 01.
 
 ## Cómo reproducir
 
@@ -61,7 +67,7 @@ Los notebooks leen los datos desde `datos/`, así que entregan los mismos result
 ## Fuentes de datos
 
 - **Yahoo Finance.** Precios diarios ajustados por dividendos de acciones del IPSA y del ETF It Now IPSA.
-- **mindicador.cl.** Tasa de Política Monetaria y otros indicadores publicados por el Banco Central de Chile.
+- **mindicador.cl.** IPC, IMACEC, Tasa de Política Monetaria y dólar observado, publicados por el Banco Central de Chile.
 
 ## Trabajos anteriores
 

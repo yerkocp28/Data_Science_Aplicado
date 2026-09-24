@@ -20,3 +20,8 @@ datos/privados/
 Thumbs.db
 .vscode/
 .idea/
+
+# Credenciales locales: nunca se suben al repositorio
+api_banco_central.txt
+*credencial*
+*.key

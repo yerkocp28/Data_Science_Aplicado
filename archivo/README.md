@@ -18,4 +18,4 @@ Los modelos incluyen Naive Bayes, árboles de decisión, bagging, AdaBoost y Oza
 
 Carpeta [web_scraping_sismos_2022](web_scraping_sismos_2022/).
 
-Primer ejercicio de extracción del catálogo de sismos de sismologia.cl con BeautifulSoup. Quedó incompleto. Será la base del proyecto de sismicidad en Chile, que se reconstruirá en la carpeta de análisis de datos.
+Primer ejercicio de extracción del catálogo de sismos de sismologia.cl con BeautifulSoup. Quedó incompleto. El proyecto completo está en [Sismicidad en Chile](../01_analisis_de_datos/02_sismicidad_chile.ipynb).

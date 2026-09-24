@@ -1,0 +1,22 @@
+# Entornos
+.venv/
+venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Datos privados: nunca se suben al repositorio
+datos/privados/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

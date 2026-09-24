@@ -1,49 +1,88 @@
-# Applied Data Science & Quantitative Analytics
+# Data Science Aplicado: finanzas cuantitativas y riesgo
 
-A curated collection of applied analytics work by **Yerko Carreño** — Financial Risk Analyst, Statistical Engineer and MSc in Business Analytics.
+Proyectos de análisis de datos, finanzas y series de tiempo con datos públicos de Chile, desarrollados por **Yerko Carreño**, analista de riesgo financiero.
 
-This repository documents earlier projects and notebooks across data analysis, finance, time series and web scraping. It is maintained as part of a broader portfolio focused on **financial risk, quantitative modelling and banking analytics**.
+Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina con conclusiones y limitaciones explícitas. Las funciones comunes viven en un paquete de Python con pruebas automáticas.
 
-## Repository areas
+## Proyectos
 
-- **Analisis de datos** — exploratory data analysis and applied analytics.
-- **Finanzas** — finance-related analyses and quantitative exercises.
-- **Notebooks** — experimental and educational notebooks.
-- **Series de Tiempo** — time-series modelling and forecasting work.
-- **Tesis Alerce** — thesis-related analytical material.
-- **Web Scraping** — data acquisition and scraping exercises.
+| Área | Proyecto | Estado | Qué muestra |
+|---|---|---|---|
+| Finanzas | [Optimización de portafolio con acciones del IPSA](02_finanzas/01_optimizacion_portafolio.ipynb) | Listo | Markowitz, CAPM y backtest fuera de muestra con costos |
+| Finanzas | [Riesgo de mercado: VaR, ES y backtesting](02_finanzas/02_metricas_de_riesgo.ipynb) | Listo | Cuatro métodos de VaR, Kupiec, Christoffersen y semáforo de Basilea |
+| Finanzas | Curva de tasas de Chile | Próximo | Nelson-Siegel, duración, convexidad y choques de tasas |
+| Series de tiempo | Descripción y descomposición del IMACEC | Próximo | Estacionalidad, raíz unitaria y autocorrelación |
+| Series de tiempo | Pronóstico de inflación | Próximo | SARIMA y ETS contra un modelo ingenuo |
+| Series de tiempo | Transmisión de la política monetaria | Próximo | VAR, causalidad de Granger e impulso-respuesta |
+| Series de tiempo | Volatilidad del dólar y del IPSA | Próximo | GARCH y VaR condicional |
+| Análisis de datos | Sismicidad en Chile | Próximo | Scraping, limpieza y ley de Gutenberg-Richter |
+| Análisis de datos | Segmentación de bancos chilenos | Próximo | Clustering con indicadores públicos de la CMF |
 
-## Professional focus
+## Resultados destacados
 
-My current work is concentrated on:
+**Optimización de portafolio.** Las tres estrategias diversificadas superaron al ETF IPSA entre 2021 y 2026, ya descontados los costos. Sin embargo, con cinco años de datos la ventaja del portafolio de máximo Sharpe no es estadísticamente significativa.
 
-- Market Risk
-- ALM & IRRBB
-- Liquidity Risk
-- VaR & Expected Shortfall
-- Stress Testing & Backtesting
-- Model Validation
-- Banking Regulation / Basel III
-- Quantitative Risk Analytics
+![Backtest de portafolios](02_finanzas/figuras/backtest_portafolios.png)
 
-## Technical stack
+**Riesgo de mercado.** Los retornos de acciones chilenas tienen colas mucho más pesadas que una normal. El VaR con t de Student es el único de los cuatro métodos que pasa las pruebas de Kupiec y Christoffersen.
 
-`Python` · `R` · `SQL` · `Statistics` · `Time Series` · `Machine Learning` · `Power BI` · `Tableau`
+![Backtest de VaR](02_finanzas/figuras/backtest_var.png)
 
-## Portfolio direction
+## Estructura
 
-This repository contains historical applied data-science work. New portfolio projects are being developed as standalone repositories with production-oriented structure, tests, documentation and reproducible workflows, with emphasis on financial risk management.
+```
+├── 02_finanzas/          notebooks de finanzas y sus figuras
+├── src/dsaplicado/       paquete compartido
+│   ├── datos.py          descarga y caché de Yahoo Finance y mindicador.cl
+│   ├── portafolio.py     optimización, CAPM y backtest con rebalanceo
+│   ├── riesgo.py         VaR, ES, EWMA y pruebas de backtesting
+│   └── graficos.py       estilo gráfico común y paleta apta para daltonismo
+├── tests/                pruebas unitarias del paquete
+├── datos/                datos públicos en caché para reproducir los resultados
+└── archivo/              trabajos anteriores que no se mantienen
+```
 
-Planned flagship projects include:
+Las carpetas de análisis de datos y de series de tiempo se agregarán con los numerales 01 y 03.
 
-1. **VaR & Expected Shortfall Model Validation**
-2. **IRRBB / ALM Risk Engine**
-3. **Counterparty Risk & Collateral Engine**
-4. **Credit Risk / IFRS 9 Analytics**
-5. **Integrated Bank Risk Lab**
+## Cómo reproducir
 
----
+Requiere Python 3.10 o superior.
 
-**Yerko Carreño**  
-Financial Risk Analyst | Statistical Engineer | MSc Business Analytics  
-FRM Part I Candidate — November 2026
+```bash
+python -m venv .venv
+source .venv/bin/activate        # en Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+pytest                           # pruebas del paquete
+jupyter lab                      # abrir los notebooks
+```
+
+Los notebooks leen los datos desde `datos/`, así que entregan los mismos resultados sin conexión. Para actualizarlos, cada función de carga acepta `actualizar=True`.
+
+## Fuentes de datos
+
+- **Yahoo Finance.** Precios diarios ajustados por dividendos de acciones del IPSA y del ETF It Now IPSA.
+- **mindicador.cl.** Tasa de Política Monetaria y otros indicadores publicados por el Banco Central de Chile.
+
+## Trabajos anteriores
+
+La carpeta [archivo](archivo/) conserva mi tesis sobre clasificación con aprendizaje en línea y un ejercicio de scraping de 2022. Se mantienen como registro y no se actualizan.
+
+## Sobre mí
+
+Analista de riesgo financiero, ingeniero en estadística y magíster en Business Analytics. Candidato al FRM Part I en noviembre de 2026.
+
+Mi foco profesional es riesgo de mercado, ALM e IRRBB, riesgo de liquidez, VaR y Expected Shortfall, pruebas de estrés, validación de modelos y regulación bancaria de Basilea III.
+
+**Herramientas:** Python, R, SQL, estadística, series de tiempo, machine learning, Power BI y Tableau.
+
+Estoy desarrollando proyectos de riesgo más extensos en repositorios independientes:
+
+1. Validación de modelos de VaR y Expected Shortfall
+2. Motor de riesgo IRRBB y ALM
+3. Riesgo de contraparte y colaterales
+4. Riesgo de crédito bajo IFRS 9
+5. Laboratorio integrado de riesgo bancario
+
+## Licencia
+
+Código bajo licencia MIT. Los datos pertenecen a sus respectivas fuentes.

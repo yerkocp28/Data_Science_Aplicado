@@ -211,3 +211,57 @@ def resumen_backtest(
         "perdida_media_en_exc": perdida_media,
         "es_medio_en_exc": es_medio,
     }
+
+
+# --- VaR condicional con GARCH ---------------------------------------------------
+
+
+def _cuantil_y_es_t_estandarizada(nu: float, nivel: float) -> tuple[float, float]:
+    """Cuantil de pérdida y ES de una t de Student con varianza uno."""
+    ajuste = np.sqrt((nu - 2) / nu)
+    q = stats.t.ppf(nivel, nu)
+    es = stats.t.pdf(q, nu) * (nu + q**2) / ((nu - 1) * (1 - nivel))
+    return float(q * ajuste), float(es * ajuste)
+
+
+def pronosticar_var_es_garch(
+    retornos: pd.Series,
+    nivel: float = 0.99,
+    ventana_minima: int = 250,
+    recalibrar_cada: int = 21,
+    asimetrico: bool = False,
+) -> pd.DataFrame:
+    """Pronóstico diario de VaR y ES con GARCH(1,1) e innovaciones t de Student.
+
+    Los parámetros se estiman con ventana creciente cada ``recalibrar_cada`` días.
+    Entre recalibraciones, la volatilidad se actualiza a diario con los parámetros
+    fijos, usando solo retornos anteriores al día pronosticado.
+
+    Con ``asimetrico=True`` se usa GJR-GARCH, donde las caídas aumentan la
+    volatilidad más que las subidas del mismo tamaño.
+    """
+    from arch import arch_model
+
+    r = retornos.dropna() * 100  # la optimización es más estable en puntos porcentuales
+    especificacion = dict(mean="Constant", vol="GARCH", p=1, o=1 if asimetrico else 0, q=1, dist="t")
+    bloques = []
+    for inicio in range(ventana_minima, len(r), recalibrar_cada):
+        fin = min(inicio + recalibrar_cada, len(r))
+        ajuste = arch_model(r.iloc[:inicio], **especificacion).fit(disp="off", show_warning=False)
+        par = ajuste.params
+        mu, omega, alfa, beta = (float(par[k]) for k in ("mu", "omega", "alpha[1]", "beta[1]"))
+        gamma = float(par["gamma[1]"]) if asimetrico else 0.0
+        # Recursión explícita: la varianza de t usa solo el shock y la varianza de t-1.
+        varianza_previa = float(ajuste.conditional_volatility.iloc[-1]) ** 2
+        shock_previo = float(r.iloc[inicio - 1]) - mu
+        varianzas = []
+        for t in range(inicio, fin):
+            peso = alfa + (gamma if shock_previo < 0 else 0.0)
+            varianza_previa = omega + peso * shock_previo**2 + beta * varianza_previa
+            varianzas.append(varianza_previa)
+            shock_previo = float(r.iloc[t]) - mu
+        sigma = pd.Series(np.sqrt(varianzas), index=r.index[inicio:fin])
+        nu = max(float(par["nu"]), 2.1)
+        q, es_std = _cuantil_y_es_t_estandarizada(nu, nivel)
+        bloques.append(pd.DataFrame({"var": (q * sigma - mu) / 100, "es": (es_std * sigma - mu) / 100, "sigma": sigma / 100}))
+    return pd.concat(bloques)

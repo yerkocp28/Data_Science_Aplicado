@@ -16,7 +16,7 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 | Series de tiempo | [Modelos univariados](03_series_de_tiempo/02_modelos_univariados.ipynb) | Listo | SARIMA y ETS contra la meta del 3%, con origen móvil |
 | Series de tiempo | [Modelos multivariados](03_series_de_tiempo/03_modelos_multivariados.ipynb) | Listo | VAR, causalidad de Granger, impulso-respuesta y pronóstico |
 | Series de tiempo | [Volatilidad con GARCH](03_series_de_tiempo/04_volatilidad_garch.ipynb) | Listo | GARCH y GJR con colas t, y VaR condicional |
-| Análisis de datos | Sismicidad en Chile | Próximo | Scraping, limpieza y ley de Gutenberg-Richter |
+| Análisis de datos | [Sismicidad en Chile](01_analisis_de_datos/02_sismicidad_chile.ipynb) | Listo | Web scraping del CSN, validación con la API del USGS y ley de Gutenberg-Richter |
 | Análisis de datos | [Segmentación de bancos chilenos](01_analisis_de_datos/01_segmentacion_bancos.ipynb) | Listo | Clustering con datos de la API de la CMF, k-means, Ward y PCA |
 
 ## Resultados destacados
@@ -42,7 +42,7 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 ## Estructura
 
 ```
-├── 01_analisis_de_datos/ segmentación de bancos con datos de la CMF
+├── 01_analisis_de_datos/ segmentación de bancos y sismicidad en Chile
 ├── 02_finanzas/          notebooks de finanzas y sus figuras
 ├── 03_series_de_tiempo/  notebooks de series de tiempo, figuras y resultados
 ├── src/dsaplicado/       paquete compartido
@@ -52,6 +52,7 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 │   ├── riesgo.py         VaR, ES, EWMA, GARCH y pruebas de backtesting
 │   ├── series.py         estacionariedad, origen móvil y prueba de Diebold-Mariano
 │   ├── tasas.py          beta de depósitos: traspaso de la tasa de política a tasas bancarias
+│   ├── sismos.py         scraping del catálogo del CSN, API del USGS y Gutenberg-Richter
 │   └── graficos.py       estilo gráfico común y paleta apta para daltonismo
 ├── tests/                pruebas unitarias del paquete
 ├── datos/                datos públicos en caché para reproducir los resultados
@@ -77,6 +78,7 @@ Los notebooks leen los datos desde `datos/`, así que entregan los mismos result
 
 - **Yahoo Finance.** Precios diarios ajustados por dividendos de acciones del IPSA y del ETF It Now IPSA.
 - **mindicador.cl.** IPC, IMACEC, Tasa de Política Monetaria y dólar observado, publicados por el Banco Central de Chile.
+- **Centro Sismológico Nacional y USGS.** Catálogo de sismos de sismologia.cl, extraído con web scraping, y catálogo mundial del Servicio Geológico de Estados Unidos.
 - **API BEST de la CMF.** Indicadores de solvencia, rentabilidad, riesgo de crédito y actividad por banco, y tasas de depósitos por plazo, publicados por la Comisión para el Mercado Financiero.
 
 ## Trabajos anteriores

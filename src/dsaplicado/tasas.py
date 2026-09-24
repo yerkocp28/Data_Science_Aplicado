@@ -67,3 +67,88 @@ def beta_ciclo(tasa: pd.Series, referencia: pd.Series, inicio: str, fin: str) ->
     if delta_ref == 0:
         raise ValueError("La referencia no cambió en el período; la beta del ciclo no está definida.")
     return float((tasa.loc[fin] - tasa.loc[inicio]) / delta_ref)
+
+
+# --- Curva de rendimientos: Nelson-Siegel -------------------------------------------
+
+LAMBDA_DIEBOLD_LI = 0.7308  # en años; maximiza la carga de curvatura cerca de 2,5 años
+
+
+def cargas_nelson_siegel(plazos: np.ndarray, lam: float = LAMBDA_DIEBOLD_LI) -> np.ndarray:
+    """Cargas de nivel, pendiente y curvatura de Nelson-Siegel para plazos en años."""
+    t = np.asarray(plazos, dtype=float)
+    x = lam * t
+    pendiente = (1 - np.exp(-x)) / x
+    curvatura = pendiente - np.exp(-x)
+    return np.column_stack([np.ones_like(t), pendiente, curvatura])
+
+
+def ajustar_nelson_siegel(plazos: np.ndarray, tasas: np.ndarray, lam: float = LAMBDA_DIEBOLD_LI) -> dict[str, float]:
+    """Ajusta nivel, pendiente y curvatura por mínimos cuadrados con lambda fijo.
+
+    Con lambda fijo el ajuste es lineal, estable y rápido, como en Diebold y Li (2006).
+    Convención: la pendiente es tasa larga menos tasa corta, por eso es igual a menos beta1.
+    """
+    x = cargas_nelson_siegel(plazos, lam)
+    y = np.asarray(tasas, dtype=float)
+    beta, *_ = np.linalg.lstsq(x, y, rcond=None)
+    residuo = y - x @ beta
+    return {"nivel": float(beta[0]), "beta1": float(beta[1]), "curvatura": float(beta[2]),
+            "pendiente": float(-beta[1]), "rmse": float(np.sqrt(np.mean(residuo**2)))}
+
+
+def curva_nelson_siegel(parametros: dict[str, float], plazos: np.ndarray, lam: float = LAMBDA_DIEBOLD_LI) -> np.ndarray:
+    """Tasas de la curva ajustada en los plazos pedidos."""
+    beta = np.array([parametros["nivel"], parametros["beta1"], parametros["curvatura"]])
+    return cargas_nelson_siegel(plazos, lam) @ beta
+
+
+# --- Bonos: precio, duración y convexidad -------------------------------------------
+
+
+def flujos_bono(cupon: float, plazo: float, frecuencia: int = 2, nominal: float = 100.0) -> tuple[np.ndarray, np.ndarray]:
+    """Fechas de pago en años y montos de un bono bullet con cupón fijo anual en porcentaje."""
+    n = int(round(plazo * frecuencia))
+    tiempos = np.arange(1, n + 1) / frecuencia
+    montos = np.full(n, nominal * cupon / 100 / frecuencia)
+    montos[-1] += nominal
+    return tiempos, montos
+
+
+def precio_con_curva(tiempos: np.ndarray, montos: np.ndarray, tasas_cero: np.ndarray) -> float:
+    """Valor presente descontando cada flujo con su tasa cero, en porcentaje y capitalización continua."""
+    return float(np.sum(montos * np.exp(-np.asarray(tasas_cero) / 100 * tiempos)))
+
+
+def duracion_convexidad(tiempos: np.ndarray, montos: np.ndarray, tasas_cero: np.ndarray) -> dict[str, float]:
+    """Precio, duración y convexidad frente a un desplazamiento paralelo de la curva.
+
+    Con capitalización continua, la duración es el plazo promedio de los flujos
+    ponderado por su valor presente, y la convexidad el promedio de los plazos al cuadrado.
+    """
+    vp = montos * np.exp(-np.asarray(tasas_cero) / 100 * tiempos)
+    precio = vp.sum()
+    return {"precio": float(precio), "duracion": float((vp * tiempos).sum() / precio),
+            "convexidad": float((vp * tiempos**2).sum() / precio)}
+
+
+# --- Escenarios de shock de tasas de Basilea para IRRBB ---------------------------------
+
+
+def escenarios_basilea(plazos: np.ndarray, paralelo: float, corto: float, largo: float, x: float = 4.0) -> pd.DataFrame:
+    """Los seis escenarios estándar de IRRBB de Basilea (BCBS, 2016), en las mismas unidades de los shocks.
+
+    El shock corto decae con el plazo como exp(-t/x). Empinamiento y aplanamiento
+    combinan los shocks corto y largo con los pesos del estándar.
+    """
+    t = np.asarray(plazos, dtype=float)
+    s_corto = corto * np.exp(-t / x)
+    s_largo = largo * (1 - np.exp(-t / x))
+    return pd.DataFrame({
+        "paralelo arriba": np.full_like(t, paralelo),
+        "paralelo abajo": np.full_like(t, -paralelo),
+        "empinamiento": -0.65 * np.abs(s_corto) + 0.9 * np.abs(s_largo),
+        "aplanamiento": 0.8 * np.abs(s_corto) - 0.6 * np.abs(s_largo),
+        "corto arriba": s_corto,
+        "corto abajo": -s_corto,
+    }, index=pd.Index(t, name="plazo"))

@@ -11,7 +11,7 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 | Finanzas | [Optimización de portafolio con acciones del IPSA](02_finanzas/01_optimizacion_portafolio.ipynb) | Listo | Markowitz, CAPM y backtest fuera de muestra con costos |
 | Finanzas | [Riesgo de mercado: VaR, ES y backtesting](02_finanzas/02_metricas_de_riesgo.ipynb) | Listo | Cuatro métodos de VaR, Kupiec, Christoffersen y semáforo de Basilea |
 | Finanzas | [Tasas de captación y beta de depósitos](02_finanzas/03_tasas_de_captacion.ipynb) | Listo | Traspaso de la TPM a los depósitos y costo de fondeo por banco, con datos de la CMF |
-| Finanzas | Curva soberana de Chile | Próximo | Nelson-Siegel, duración, convexidad y choques de tasas, con datos del Banco Central |
+| Finanzas | [Curva de tasas y escenarios de IRRBB](02_finanzas/04_curva_de_tasas.ipynb) | Listo | Nelson-Siegel, componentes principales, duración, convexidad y los seis escenarios de Basilea, con datos del Banco Central |
 | Series de tiempo | [Descripción y descomposición](03_series_de_tiempo/01_descripcion_y_descomposicion.ipynb) | Listo | Estacionalidad del IPC, raíz unitaria y autocorrelación |
 | Series de tiempo | [Modelos univariados](03_series_de_tiempo/02_modelos_univariados.ipynb) | Listo | SARIMA y ETS contra la meta del 3%, con origen móvil |
 | Series de tiempo | [Modelos multivariados](03_series_de_tiempo/03_modelos_multivariados.ipynb) | Listo | VAR, causalidad de Granger, impulso-respuesta y pronóstico |
@@ -35,6 +35,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 
 **Tasas de captación.** Los bancos traspasan entre 72% y 90% de los cambios de la TPM a sus depósitos en unos tres meses, sin diferencias entre alzas y bajas. Es la beta de depósitos, un supuesto clave en los modelos de IRRBB. Los bancos grandes se financian bajo la TPM y los pequeños sobre ella.
 
+**Curva de tasas.** La curva swap en pesos se describe con tres factores de Nelson-Siegel, y nivel y pendiente explican el 97% de sus movimientos. En los escenarios de Basilea calibrados para el peso chileno, una cartera de bonos con duración de 4,7 años pierde 10,8% ante un alza paralela. Los movimientos históricos del tramo corto superan los shocks estándar.
+
+![Escenarios de IRRBB](02_finanzas/figuras/escenarios_irrbb.png)
+
 **Series de tiempo.** Un SARIMA simple pronostica la inflación tan bien como un VAR con cuatro variables, y antes de 2020 la meta del 3% fue el mejor pronóstico. En riesgo, un GARCH con colas t pasa todas las pruebas de backtesting y corrige la subestimación del Expected Shortfall.
 
 ![Comparación de pronósticos de inflación](03_series_de_tiempo/figuras/comparacion_pronosticos.png)
@@ -48,10 +52,11 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 ├── src/dsaplicado/       paquete compartido
 │   ├── datos.py          descarga y caché de Yahoo Finance y mindicador.cl
 │   ├── cmf.py            cliente de la API BEST de la CMF, con control de ritmo y caché
+│   ├── bcch.py           cliente de la API de la Base de Datos Estadísticos del Banco Central
 │   ├── portafolio.py     optimización, CAPM y backtest con rebalanceo
 │   ├── riesgo.py         VaR, ES, EWMA, GARCH y pruebas de backtesting
 │   ├── series.py         estacionariedad, origen móvil y prueba de Diebold-Mariano
-│   ├── tasas.py          beta de depósitos: traspaso de la tasa de política a tasas bancarias
+│   ├── tasas.py          beta de depósitos, Nelson-Siegel, duración y escenarios de Basilea
 │   ├── sismos.py         scraping del catálogo del CSN, API del USGS y Gutenberg-Richter
 │   └── graficos.py       estilo gráfico común y paleta apta para daltonismo
 ├── tests/                pruebas unitarias del paquete
@@ -72,13 +77,14 @@ pytest                           # pruebas del paquete
 jupyter lab                      # abrir los notebooks
 ```
 
-Los notebooks leen los datos desde `datos/`, así que entregan los mismos resultados sin conexión. Para actualizarlos, cada función de carga acepta `actualizar=True`. Actualizar los datos de la CMF requiere además una clave gratuita de su API, guardada en un archivo `.env` que git ignora.
+Los notebooks leen los datos desde `datos/`, así que entregan los mismos resultados sin conexión. Para actualizarlos, cada función de carga acepta `actualizar=True`. Actualizar los datos de la CMF y del Banco Central requiere claves gratuitas de sus APIs, guardadas en un archivo `.env` que git ignora, con las líneas `CMF_API_KEY=...` y `BCCH_TOKEN=...`.
 
 ## Fuentes de datos
 
 - **Yahoo Finance.** Precios diarios ajustados por dividendos de acciones del IPSA y del ETF It Now IPSA.
 - **mindicador.cl.** IPC, IMACEC, Tasa de Política Monetaria y dólar observado, publicados por el Banco Central de Chile.
 - **Centro Sismológico Nacional y USGS.** Catálogo de sismos de sismologia.cl, extraído con web scraping, y catálogo mundial del Servicio Geológico de Estados Unidos.
+- **API del Banco Central de Chile.** Tasas swap promedio cámara en pesos y tasas de mercado secundario de bonos del Banco Central.
 - **API BEST de la CMF.** Indicadores de solvencia, rentabilidad, riesgo de crédito y actividad por banco, y tasas de depósitos por plazo, publicados por la Comisión para el Mercado Financiero.
 
 ## Trabajos anteriores

@@ -29,6 +29,12 @@ AZUL_SECUENCIAL = LinearSegmentedColormap.from_list(
 )
 
 
+# Rampa divergente: rojo para valores negativos, gris neutro en cero y azul para positivos.
+DIVERGENTE = LinearSegmentedColormap.from_list(
+    "divergente", ["#b3282d", "#e34948", "#f0a8a4", "#f0efec", "#9ec5f4", "#2a78d6", "#184f95"]
+)
+
+
 def aplicar_estilo() -> None:
     """Configura matplotlib con marcas finas, grilla discreta y tipografía del sistema."""
     mpl.rcParams.update(

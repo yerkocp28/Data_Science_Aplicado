@@ -16,7 +16,7 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 | Series de tiempo | [Modelos multivariados](03_series_de_tiempo/03_modelos_multivariados.ipynb) | Listo | VAR, causalidad de Granger, impulso-respuesta y pronóstico |
 | Series de tiempo | [Volatilidad con GARCH](03_series_de_tiempo/04_volatilidad_garch.ipynb) | Listo | GARCH y GJR con colas t, y VaR condicional |
 | Análisis de datos | Sismicidad en Chile | Próximo | Scraping, limpieza y ley de Gutenberg-Richter |
-| Análisis de datos | Segmentación de bancos chilenos | Próximo | Clustering con indicadores públicos de la CMF |
+| Análisis de datos | [Segmentación de bancos chilenos](01_analisis_de_datos/01_segmentacion_bancos.ipynb) | Listo | Clustering con datos de la API de la CMF, k-means, Ward y PCA |
 
 ## Resultados destacados
 
@@ -28,6 +28,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 
 ![Backtest de VaR](02_finanzas/figuras/backtest_var.png)
 
+**Segmentación de bancos.** Con datos de la API de la CMF, los 17 bancos chilenos se agrupan en banca universal, banca de consumo y banca mayorista extranjera. La banca universal concentra casi todo el crédito, y todos los bancos superan con holgura el mínimo de capital de Basilea III.
+
+![Mapa de los bancos chilenos](01_analisis_de_datos/figuras/mapa_bancos.png)
+
 **Series de tiempo.** Un SARIMA simple pronostica la inflación tan bien como un VAR con cuatro variables, y antes de 2020 la meta del 3% fue el mejor pronóstico. En riesgo, un GARCH con colas t pasa todas las pruebas de backtesting y corrige la subestimación del Expected Shortfall.
 
 ![Comparación de pronósticos de inflación](03_series_de_tiempo/figuras/comparacion_pronosticos.png)
@@ -35,10 +39,12 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 ## Estructura
 
 ```
+├── 01_analisis_de_datos/ segmentación de bancos con datos de la CMF
 ├── 02_finanzas/          notebooks de finanzas y sus figuras
 ├── 03_series_de_tiempo/  notebooks de series de tiempo, figuras y resultados
 ├── src/dsaplicado/       paquete compartido
 │   ├── datos.py          descarga y caché de Yahoo Finance y mindicador.cl
+│   ├── cmf.py            cliente de la API BEST de la CMF, con control de ritmo y caché
 │   ├── portafolio.py     optimización, CAPM y backtest con rebalanceo
 │   ├── riesgo.py         VaR, ES, EWMA, GARCH y pruebas de backtesting
 │   ├── series.py         estacionariedad, origen móvil y prueba de Diebold-Mariano
@@ -48,7 +54,6 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 └── archivo/              trabajos anteriores que no se mantienen
 ```
 
-La carpeta de análisis de datos se agregará con el numeral 01.
 
 ## Cómo reproducir
 
@@ -62,12 +67,13 @@ pytest                           # pruebas del paquete
 jupyter lab                      # abrir los notebooks
 ```
 
-Los notebooks leen los datos desde `datos/`, así que entregan los mismos resultados sin conexión. Para actualizarlos, cada función de carga acepta `actualizar=True`.
+Los notebooks leen los datos desde `datos/`, así que entregan los mismos resultados sin conexión. Para actualizarlos, cada función de carga acepta `actualizar=True`. Actualizar los datos de la CMF requiere además una clave gratuita de su API, guardada en un archivo `.env` que git ignora.
 
 ## Fuentes de datos
 
 - **Yahoo Finance.** Precios diarios ajustados por dividendos de acciones del IPSA y del ETF It Now IPSA.
 - **mindicador.cl.** IPC, IMACEC, Tasa de Política Monetaria y dólar observado, publicados por el Banco Central de Chile.
+- **API BEST de la CMF.** Indicadores de solvencia, rentabilidad, riesgo de crédito y actividad por banco, publicados por la Comisión para el Mercado Financiero.
 
 ## Trabajos anteriores
 

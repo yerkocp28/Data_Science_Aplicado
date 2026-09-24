@@ -1,6 +1,6 @@
 # Finanzas
 
-Dos análisis sobre acciones chilenas del IPSA entre enero de 2019 y agosto de 2026. El primero construye portafolios y el segundo mide su riesgo de cola.
+Tres análisis. Los dos primeros usan acciones chilenas del IPSA entre enero de 2019 y agosto de 2026: uno construye portafolios y el otro mide su riesgo de cola. El tercero estudia el traspaso de la TPM a las tasas de depósitos de los bancos.
 
 ## 01. Optimización de portafolio
 
@@ -46,7 +46,29 @@ Dos análisis sobre acciones chilenas del IPSA entre enero de 2019 y agosto de 2
 
 ![Semáforo de Basilea](figuras/semaforo_basilea.png)
 
-## Supuestos comunes
+## 03. Tasas de captación y beta de depósitos
+
+[Abrir el notebook](03_tasas_de_captacion.ipynb)
+
+**Pregunta.** ¿Cuánto y qué tan rápido traspasan los bancos los cambios de la TPM a sus depósitos, y qué bancos se financian más barato?
+
+**Método.**
+
+- Tasas de depósitos por plazo de la API BEST de la CMF desde 2014, solo en los tramos menores a 90 días, que son nominales en pesos. Los tramos más largos mezclan depósitos en pesos y en UF.
+- Beta de depósitos con un modelo de rezagos distribuidos, betas por ciclo de la TPM y prueba de asimetría entre alzas y bajas.
+- Prueba de la hipótesis de expectativas con la pendiente del tramo corto.
+- Costo de fondeo de cada banco frente a la TPM, cruzado con los grupos del proyecto de segmentación.
+
+**Conclusiones.**
+
+- La beta de depósitos va de 0,72 a 0,90 según el plazo, y es igual en alzas y en bajas.
+- En el ciclo de alzas de 2022 y 2023, los depósitos más cortos pagaron más de 2 puntos bajo la TPM.
+- La pendiente del tramo corto casi no anticipa la TPM, porque refleja un premio por plazo.
+- El tamaño explica el costo de fondeo mejor que el modelo de negocio.
+
+![Beta de depósitos](figuras/beta_depositos.png)
+
+## Supuestos de los notebooks 01 y 02
 
 - **Universo.** BCI, Santander, Banco de Chile, Cencosud, CMPC, Copec, Enel Chile, Falabella y SQM-B. Se excluye LATAM por su quiebra y reestructuración entre 2020 y 2022.
 - **Sesgo de supervivencia.** Las acciones se eligieron con información de hoy, lo que favorece a las estrategias frente al índice.

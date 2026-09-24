@@ -72,3 +72,36 @@ def test_error_http_no_expone_la_clave(monkeypatch):
 ])
 def test_codigo_institucion(serie, codigo):
     assert cmf.codigo_institucion(serie) == codigo
+
+
+def test_parsear_serie_individual():
+    respuesta = {"serieInfo": {"cod_serie": "CMF_DEPCAP_DEP_30H60D_AGIFI_BCHI_PORC", "descripcion_corta": "Banco de Chile"},
+                 "valores": [{"fecha": 20260401, "valor": 4.01}, {"fecha": 20260501, "valor": 4.0}]}
+    tabla = cmf.parsear_serie(respuesta)
+    assert len(tabla) == 2
+    assert cmf.codigo_institucion(tabla["codigo_serie"].iloc[0]) == "BCHI"
+
+
+def test_cuadro_vacio_no_se_guarda_en_cache(tmp_path, monkeypatch):
+    class ClienteVacio:
+        def cuadro(self, *args):
+            return cmf.parsear_cuadro({"series": []})
+
+    with pytest.raises(cmf.ErrorCMF, match="no devolvió datos"):
+        cmf.cargar_cuadro("X", date(2025, 1, 1), date(2025, 12, 31), tmp_path, ClienteVacio())
+    assert not list(tmp_path.iterdir())
+
+
+def test_cargar_series_omite_las_que_fallan(tmp_path):
+    class ClienteParcial:
+        def serie(self, codigo, inicio, fin):
+            if "MALA" in codigo:
+                raise cmf.ErrorCMF("sin datos")
+            return cmf.parsear_serie({"serieInfo": {"cod_serie": codigo, "descripcion_corta": codigo},
+                                      "valores": [{"fecha": 20260101, "valor": 1.0}]})
+
+    archivo = tmp_path / "series.csv"
+    with pytest.warns(UserWarning, match="MALA"):
+        tabla = cmf.cargar_series(["S_BUENA", "S_MALA"], date(2026, 1, 1), date(2026, 1, 31), archivo, ClienteParcial())
+    assert list(tabla["codigo_serie"]) == ["S_BUENA"]
+    assert archivo.exists()

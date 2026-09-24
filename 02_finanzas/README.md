@@ -1,6 +1,6 @@
 # Finanzas
 
-Tres análisis. Los dos primeros usan acciones chilenas del IPSA entre enero de 2019 y agosto de 2026: uno construye portafolios y el otro mide su riesgo de cola. El tercero estudia el traspaso de la TPM a las tasas de depósitos de los bancos.
+Cuatro análisis. Los dos primeros usan acciones chilenas del IPSA entre enero de 2019 y agosto de 2026: uno construye portafolios y el otro mide su riesgo de cola. El tercero estudia el traspaso de la TPM a las tasas de depósitos de los bancos, y el cuarto la curva de tasas en pesos y su riesgo.
 
 ## 01. Optimización de portafolio
 
@@ -67,6 +67,28 @@ Tres análisis. Los dos primeros usan acciones chilenas del IPSA entre enero de 
 - El tamaño explica el costo de fondeo mejor que el modelo de negocio.
 
 ![Beta de depósitos](figuras/beta_depositos.png)
+
+## 04. Curva de tasas y escenarios de IRRBB
+
+[Abrir el notebook](04_curva_de_tasas.ipynb)
+
+**Pregunta.** ¿Cómo se mueve la curva de tasas en pesos y cuánto valor pierde una cartera de bonos ante los escenarios de shock de Basilea para IRRBB?
+
+**Método.**
+
+- Curva swap promedio cámara en pesos del Banco Central, de 3 meses a 10 años, diaria desde 2008.
+- Ajuste diario de Nelson-Siegel con el parámetro de forma fijo de Diebold y Li.
+- Componentes principales de los cambios mensuales de la curva.
+- Duración, convexidad y los seis escenarios de Basilea, calibrados con el método del estándar sobre la tasa promedio chilena.
+
+**Conclusiones.**
+
+- Nelson-Siegel ajusta la curva con un error mediano de 4 puntos base, y nivel y pendiente explican el 97% de sus movimientos.
+- La curva estuvo invertida el 18% de los días desde 2008, con un máximo de 6,2 puntos en enero de 2023.
+- Una cartera con duración de 4,7 años pierde 10,8% ante el alza paralela calibrada, de 250 puntos base.
+- Los cambios históricos del tramo corto casi duplican el shock corto calibrado, así que conviene complementar con estrés histórico.
+
+![Escenarios de IRRBB](figuras/escenarios_irrbb.png)
 
 ## Supuestos de los notebooks 01 y 02
 

@@ -17,6 +17,7 @@ from __future__ import annotations
 import os
 import re
 import time
+import warnings
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -83,6 +84,11 @@ def parsear_cuadro(respuesta: dict) -> pd.DataFrame:
     return tabla.drop_duplicates(["fecha", "codigo_serie"]).sort_values(["codigo_serie", "fecha"]).reset_index(drop=True)
 
 
+def parsear_serie(respuesta: dict) -> pd.DataFrame:
+    """Convierte la respuesta de una serie individual en la misma tabla larga que un cuadro."""
+    return parsear_cuadro({"series": [respuesta]})
+
+
 class ClienteCMF:
     """Cliente con ritmo controlado. La clave nunca aparece en mensajes ni registros."""
 
@@ -117,6 +123,42 @@ class ClienteCMF:
         tabla = pd.concat(partes, ignore_index=True)
         return tabla.drop_duplicates(["fecha", "codigo_serie"]).reset_index(drop=True)
 
+    def serie(self, codigo: str, inicio: date, fin: date) -> pd.DataFrame:
+        """Descarga una serie individual entre dos fechas, en tramos de doce meses."""
+        partes = [
+            parsear_serie(self._get(f"series/data/{codigo}/range/{desde:%Y%m%d}/{hasta:%Y%m%d}"))
+            for desde, hasta in rangos_anuales(inicio, fin)
+        ]
+        return pd.concat(partes, ignore_index=True).drop_duplicates(["fecha", "codigo_serie"]).reset_index(drop=True)
+
+
+def cargar_series(
+    codigos: list[str], inicio: date, fin: date, archivo: str | Path, cliente: ClienteCMF | None = None
+) -> pd.DataFrame:
+    """Descarga varias series individuales y las guarda juntas en un archivo de caché.
+
+    Sirve cuando el endpoint de cuadros no devuelve todas las series de un cuadro.
+    Cada serie consume una consulta por cada tramo de doce meses.
+    """
+    ruta = Path(archivo)
+    if ruta.exists():
+        return pd.read_csv(ruta, parse_dates=["fecha"])
+    cliente = cliente or ClienteCMF()
+    partes, fallidas = [], []
+    for codigo in codigos:
+        try:
+            partes.append(cliente.serie(codigo, inicio, fin))
+        except ErrorCMF as error:
+            # Una serie sin datos no debe hacer perder las consultas ya realizadas.
+            fallidas.append(codigo)
+            warnings.warn(f"Se omite {codigo}: {error}", stacklevel=2)
+    if not partes:
+        raise ErrorCMF("Ninguna serie devolvió datos; no se guarda en caché.")
+    tabla = pd.concat(partes, ignore_index=True)
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    tabla.to_csv(ruta, index=False)
+    return tabla
+
 
 def cargar_cuadro(
     tag: str, inicio: date, fin: date, carpeta: str | Path, cliente: ClienteCMF | None = None
@@ -130,6 +172,8 @@ def cargar_cuadro(
     if ruta.exists():
         return pd.read_csv(ruta, parse_dates=["fecha"])
     tabla = (cliente or ClienteCMF()).cuadro(tag, inicio, fin)
+    if tabla.empty:
+        raise ErrorCMF(f"El cuadro {tag} no devolvió datos en ese rango; no se guarda en caché.")
     ruta.parent.mkdir(parents=True, exist_ok=True)
     tabla.to_csv(ruta, index=False)
     return tabla

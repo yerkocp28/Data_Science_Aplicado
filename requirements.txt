@@ -7,6 +7,7 @@ requests>=2.32
 statsmodels>=0.15
 arch>=7.0
 scikit-learn>=1.5
+river>=0.22
 jupyter>=1.0
 nbclient>=0.10
 pytest>=8.0

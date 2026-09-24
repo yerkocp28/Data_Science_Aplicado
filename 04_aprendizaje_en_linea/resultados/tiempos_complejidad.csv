@@ -1,0 +1,106 @@
+modelo,tipo,filas,columnas,segundos
+Naive Bayes por lotes,lotes,10000,5,0.0027329000004101545
+Naive Bayes por lotes,lotes,10000,10,0.0036792000173591077
+Naive Bayes por lotes,lotes,10000,20,0.004075000004377216
+Naive Bayes por lotes,lotes,10000,40,0.0047710000071674585
+Naive Bayes por lotes,lotes,20000,5,0.0046978000027593225
+Naive Bayes por lotes,lotes,20000,10,0.0057477999944239855
+Naive Bayes por lotes,lotes,20000,20,0.00961120001738891
+Naive Bayes por lotes,lotes,20000,40,0.010113100026501343
+Naive Bayes por lotes,lotes,40000,5,0.007851599977584556
+Naive Bayes por lotes,lotes,40000,10,0.012355199985904619
+Naive Bayes por lotes,lotes,40000,20,0.018489400012185797
+Naive Bayes por lotes,lotes,40000,40,0.025836900022113696
+Naive Bayes por lotes,lotes,80000,5,0.01665180001873523
+Naive Bayes por lotes,lotes,80000,10,0.026891899993643165
+Naive Bayes por lotes,lotes,80000,20,0.034421299991663545
+Naive Bayes por lotes,lotes,80000,40,0.06597170000895858
+Naive Bayes por lotes,lotes,160000,5,0.03249349998077378
+Naive Bayes por lotes,lotes,160000,10,0.04792249997262843
+Naive Bayes por lotes,lotes,160000,20,0.08400599999004044
+Naive Bayes por lotes,lotes,160000,40,0.12415020001935773
+Bagging de Naive Bayes por lotes,lotes,10000,5,0.05111380000016652
+Bagging de Naive Bayes por lotes,lotes,10000,10,0.06149389999336563
+Bagging de Naive Bayes por lotes,lotes,10000,20,0.06254279997665435
+Bagging de Naive Bayes por lotes,lotes,10000,40,0.0850466999982018
+Bagging de Naive Bayes por lotes,lotes,20000,5,0.07576060001156293
+Bagging de Naive Bayes por lotes,lotes,20000,10,0.09468030001153238
+Bagging de Naive Bayes por lotes,lotes,20000,20,0.11093299998901784
+Bagging de Naive Bayes por lotes,lotes,20000,40,0.14876780001213774
+Bagging de Naive Bayes por lotes,lotes,40000,5,0.12484490001224913
+Bagging de Naive Bayes por lotes,lotes,40000,10,0.1492298000084702
+Bagging de Naive Bayes por lotes,lotes,40000,20,0.2055404999991879
+Bagging de Naive Bayes por lotes,lotes,40000,40,0.3963048000005074
+Bagging de Naive Bayes por lotes,lotes,80000,5,0.24712429998908192
+Bagging de Naive Bayes por lotes,lotes,80000,10,0.28719299999647774
+Bagging de Naive Bayes por lotes,lotes,80000,20,0.4389204999897629
+Bagging de Naive Bayes por lotes,lotes,80000,40,0.9184445000137202
+Bagging de Naive Bayes por lotes,lotes,160000,5,0.44444880000082776
+Bagging de Naive Bayes por lotes,lotes,160000,10,0.5927121000131592
+Bagging de Naive Bayes por lotes,lotes,160000,20,1.0741429000045173
+Bagging de Naive Bayes por lotes,lotes,160000,40,1.7035364000184927
+Bosque aleatorio por lotes,lotes,10000,5,0.8320249000098556
+Bosque aleatorio por lotes,lotes,10000,10,1.175812000001315
+Bosque aleatorio por lotes,lotes,10000,20,1.5030993999971543
+Bosque aleatorio por lotes,lotes,10000,40,2.4176304999855347
+Bosque aleatorio por lotes,lotes,20000,5,1.851303100003861
+Bosque aleatorio por lotes,lotes,20000,10,2.5299147999903653
+Bosque aleatorio por lotes,lotes,20000,20,3.713304999982938
+Bosque aleatorio por lotes,lotes,20000,40,4.890795500017703
+Bosque aleatorio por lotes,lotes,40000,5,3.7167371999821626
+Bosque aleatorio por lotes,lotes,40000,10,5.133755199989537
+Bosque aleatorio por lotes,lotes,40000,20,7.00972339999862
+Bosque aleatorio por lotes,lotes,40000,40,10.577001600002404
+Bosque aleatorio por lotes,lotes,80000,5,9.573502499988535
+Bosque aleatorio por lotes,lotes,80000,10,12.021580300002825
+Bosque aleatorio por lotes,lotes,80000,20,16.26626189998933
+Bosque aleatorio por lotes,lotes,80000,40,24.133393000025535
+Bosque aleatorio por lotes,lotes,160000,5,21.111540200014133
+Bosque aleatorio por lotes,lotes,160000,10,28.262280800001463
+Bosque aleatorio por lotes,lotes,160000,20,38.51957149998634
+Bosque aleatorio por lotes,lotes,160000,40,66.20419109999784
+Naive Bayes en línea,en línea,2000,5,0.012312999984715134
+Naive Bayes en línea,en línea,2000,10,0.020273200003430247
+Naive Bayes en línea,en línea,2000,20,0.03937809998751618
+Naive Bayes en línea,en línea,4000,5,0.023920900013763458
+Naive Bayes en línea,en línea,4000,10,0.040464999998221174
+Naive Bayes en línea,en línea,4000,20,0.07811740000033751
+Naive Bayes en línea,en línea,8000,5,0.04682889999821782
+Naive Bayes en línea,en línea,8000,10,0.0821799999976065
+Naive Bayes en línea,en línea,8000,20,0.16118859997368418
+Naive Bayes en línea,en línea,16000,5,0.10104499998851679
+Naive Bayes en línea,en línea,16000,10,0.1765841000014916
+Naive Bayes en línea,en línea,16000,20,0.313471599976765
+Naive Bayes en línea,en línea,32000,5,0.20028329998604022
+Naive Bayes en línea,en línea,32000,10,0.34471939998911694
+Naive Bayes en línea,en línea,32000,20,0.6372332999890205
+Bagging de Oza en línea,en línea,2000,5,0.12938349999603815
+Bagging de Oza en línea,en línea,2000,10,0.21915719998651184
+Bagging de Oza en línea,en línea,2000,20,0.4100523999950383
+Bagging de Oza en línea,en línea,4000,5,0.26331300000310875
+Bagging de Oza en línea,en línea,4000,10,0.4321524999977555
+Bagging de Oza en línea,en línea,4000,20,0.7780930000008084
+Bagging de Oza en línea,en línea,8000,5,0.5205915999831632
+Bagging de Oza en línea,en línea,8000,10,0.8532209999975748
+Bagging de Oza en línea,en línea,8000,20,1.5958577999845147
+Bagging de Oza en línea,en línea,16000,5,1.0468937999976333
+Bagging de Oza en línea,en línea,16000,10,1.7240927999955602
+Bagging de Oza en línea,en línea,16000,20,3.1524038999923505
+Bagging de Oza en línea,en línea,32000,5,2.105547100014519
+Bagging de Oza en línea,en línea,32000,10,3.410008300008485
+Bagging de Oza en línea,en línea,32000,20,6.334783199999947
+Árbol de Hoeffding en línea,en línea,2000,5,0.08766740001738071
+Árbol de Hoeffding en línea,en línea,2000,10,0.13371850000112318
+Árbol de Hoeffding en línea,en línea,2000,20,0.21839670001645572
+Árbol de Hoeffding en línea,en línea,4000,5,0.17951149999862537
+Árbol de Hoeffding en línea,en línea,4000,10,0.2661192000086885
+Árbol de Hoeffding en línea,en línea,4000,20,0.4391903000068851
+Árbol de Hoeffding en línea,en línea,8000,5,0.35538910000468604
+Árbol de Hoeffding en línea,en línea,8000,10,0.5323820999765303
+Árbol de Hoeffding en línea,en línea,8000,20,0.8982004999998026
+Árbol de Hoeffding en línea,en línea,16000,5,0.7009620000026189
+Árbol de Hoeffding en línea,en línea,16000,10,1.0908895000175107
+Árbol de Hoeffding en línea,en línea,16000,20,1.8387682000175118
+Árbol de Hoeffding en línea,en línea,32000,5,1.4476712999748997
+Árbol de Hoeffding en línea,en línea,32000,10,2.2140774999861605
+Árbol de Hoeffding en línea,en línea,32000,20,3.8190411000105087

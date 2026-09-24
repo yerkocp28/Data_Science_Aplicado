@@ -1,0 +1,28 @@
+name: Pruebas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Pruebas unitarias
+        run: pytest -q
+
+      - name: Ejecutar notebooks de punta a punta
+        run: |
+          jupyter nbconvert --to notebook --execute --output-dir /tmp/notebooks \
+            --ExecutePreprocessor.timeout=900 02_finanzas/*.ipynb

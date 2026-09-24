@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dsaplicado"
+version = "0.1.0"
+description = "Funciones compartidas de los proyectos de Data Science Aplicado: datos, portafolios y riesgo de mercado."
+authors = [{ name = "Yerko Carreño" }]
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,12 @@
+numpy>=2.0
+pandas>=2.2
+scipy>=1.13
+matplotlib>=3.9
+yfinance>=0.2.50
+requests>=2.32
+statsmodels>=0.14
+arch>=7.0
+jupyter>=1.0
+nbclient>=0.10
+pytest>=8.0
+-e .

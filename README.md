@@ -20,6 +20,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 | Aprendizaje en línea | [Datos de ALeRCE](04_aprendizaje_en_linea/01_datos_alerce.ipynb) | Listo | 123.496 objetos astronómicos, jerarquía de clases y valores faltantes |
 | Aprendizaje en línea | [Por lotes frente a en línea](04_aprendizaje_en_linea/02_lotes_vs_en_linea.ipynb) | Listo | Mi tesis actualizada: nueve modelos, clases raras y cambio de concepto |
 | Aprendizaje en línea | [Complejidad computacional](04_aprendizaje_en_linea/03_complejidad_computacional.ipynb) | Listo | Tiempo de entrenamiento y costo de mantener un modelo al día |
+| FRM Parte I | [Fundamentos de la gestión de riesgos](05_FRM/01_fundamentos_gestion_riesgos.ipynb) | Listo | CAPM, medidas de desempeño, modelos multifactoriales, cobertura y desastres financieros |
+| FRM Parte I | [Análisis cuantitativo](05_FRM/02_analisis_cuantitativo.ipynb) | Listo | Hipótesis, regresión, series de tiempo, volatilidad, simulación y aprendizaje automático |
+| FRM Parte I | [Mercados y productos financieros](05_FRM/03_mercados_y_productos.ipynb) | Listo | Tasas, futuros, forwards, opciones, swaps, commodities, MBS y compensación central |
+| FRM Parte I | [Valoración y modelos de riesgo](05_FRM/04_valoracion_y_modelos_de_riesgo.ipynb) | Listo | VaR y ES, duración, árboles binomiales, griegas, crédito, riesgo operacional y estrés |
 | Análisis de datos | [Segmentación de bancos chilenos](01_analisis_de_datos/01_segmentacion_bancos.ipynb) | Listo | Clustering con datos de la API de la CMF, k-means, Ward y PCA |
 
 ## Resultados destacados
@@ -41,6 +45,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 **Curva de tasas.** La curva swap en pesos se describe con tres factores de Nelson-Siegel, y nivel y pendiente explican el 97% de sus movimientos. En los escenarios de Basilea calibrados para el peso chileno, una cartera de bonos con duración de 4,7 años pierde 10,8% ante un alza paralela. Los movimientos históricos del tramo corto superan los shocks estándar.
 
 ![Escenarios de IRRBB](02_finanzas/figuras/escenarios_irrbb.png)
+
+**FRM Parte I.** 29 casos trabajados para los cuatro libros del examen de GARP, con datos chilenos: desde la cobertura de un exportador y los llamados de margen del estallido social hasta la cobertura delta de opciones sobre el dólar en 65 trimestres reales. Las fórmulas están validadas contra ejemplos de los textos de referencia.
+
+![Estrategias con opciones sobre el dólar](05_FRM/figuras/estrategias_opciones.png)
 
 **Aprendizaje en línea.** Mi tesis, reconstruida con datos públicos de ALeRCE y la librería river. Con datos estables gana el aprendizaje por lotes, pero cuando la regla del problema cambia, solo los modelos en línea se recuperan.
 
@@ -66,10 +74,12 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 │   ├── tasas.py          beta de depósitos, Nelson-Siegel, duración y escenarios de Basilea
 │   ├── sismos.py         scraping del catálogo del CSN, API del USGS y Gutenberg-Richter
 │   ├── en_linea.py       evaluación prequential, datos de ALeRCE y complejidad computacional
+│   ├── frm.py            fórmulas del programa FRM Parte I, validadas con ejemplos de referencia
 │   └── graficos.py       estilo gráfico común y paleta apta para daltonismo
 ├── tests/                pruebas unitarias del paquete
 ├── datos/                datos públicos en caché para reproducir los resultados
 ├── 04_aprendizaje_en_linea/ tesis actualizada, con la versión original en legacy
+├── 05_FRM/               casos trabajados para los cuatro libros del FRM Parte I
 └── archivo/              trabajos anteriores que no se mantienen
 ```
 
@@ -95,6 +105,7 @@ Los notebooks leen los datos desde `datos/`, así que entregan los mismos result
 - **Centro Sismológico Nacional y USGS.** Catálogo de sismos de sismologia.cl, extraído con web scraping, y catálogo mundial del Servicio Geológico de Estados Unidos.
 - **API del Banco Central de Chile.** Tasas swap promedio cámara en pesos y tasas de mercado secundario de bonos del Banco Central.
 - **API BEST de la CMF.** Indicadores de solvencia, rentabilidad, riesgo de crédito y actividad por banco, y tasas de depósitos por plazo, publicados por la Comisión para el Mercado Financiero.
+- **FRED.** Tasas de los bonos del Tesoro de Estados Unidos, de la Reserva Federal de St. Louis.
 - **ALeRCE y UCI.** Conjunto etiquetado del clasificador de curvas de luz de ALeRCE, publicado en Zenodo con licencia CC BY 4.0, y candidatos a púlsar HTRU2 del repositorio de la UCI.
 
 ## Trabajos anteriores

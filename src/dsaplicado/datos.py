@@ -125,3 +125,24 @@ def cargar_indicador(
     ruta.parent.mkdir(parents=True, exist_ok=True)
     serie.to_csv(ruta)
     return serie
+
+
+URL_FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={serie}"
+
+
+def cargar_fred(serie: str, carpeta: str | Path, actualizar: bool = False) -> pd.Series:
+    """Serie de la base FRED de la Reserva Federal de St. Louis, sin clave, con caché en CSV."""
+    ruta = Path(carpeta) / f"fred_{serie}.csv"
+    if ruta.exists() and not actualizar:
+        return pd.read_csv(ruta, index_col="fecha", parse_dates=True)[serie]
+    import io
+
+    resp = requests.get(URL_FRED.format(serie=serie), timeout=60)
+    resp.raise_for_status()
+    tabla = pd.read_csv(io.StringIO(resp.text), na_values=".")
+    tabla.columns = ["fecha", serie]
+    tabla["fecha"] = pd.to_datetime(tabla["fecha"])
+    serie_limpia = tabla.set_index("fecha")[serie].dropna()
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    serie_limpia.to_csv(ruta)
+    return serie_limpia

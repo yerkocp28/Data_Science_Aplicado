@@ -1,6 +1,6 @@
 # Data Science Aplicado: finanzas cuantitativas y riesgo
 
-Proyectos de análisis de datos, finanzas y series de tiempo con datos públicos de Chile, desarrollados por **Yerko Carreño**, analista de riesgo financiero.
+Proyectos de análisis de datos, finanzas y series de tiempo con datos públicos de Chile.
 
 Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina con conclusiones y limitaciones explícitas. Las funciones comunes viven en un paquete de Python con pruebas automáticas.
 

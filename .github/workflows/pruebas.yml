@@ -25,4 +25,4 @@ jobs:
       - name: Ejecutar notebooks de punta a punta
         run: |
           jupyter nbconvert --to notebook --execute --output-dir /tmp/notebooks \
-            --ExecutePreprocessor.timeout=1800 01_analisis_de_datos/*.ipynb 02_finanzas/*.ipynb 03_series_de_tiempo/*.ipynb 04_aprendizaje_en_linea/*.ipynb
+            --ExecutePreprocessor.timeout=1800 01_analisis_de_datos/*.ipynb 02_finanzas/*.ipynb 03_series_de_tiempo/*.ipynb 04_aprendizaje_en_linea/*.ipynb 05_FRM/*.ipynb

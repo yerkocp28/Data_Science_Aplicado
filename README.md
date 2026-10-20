@@ -24,6 +24,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 | FRM Parte I | [Análisis cuantitativo](05_FRM/02_analisis_cuantitativo.ipynb) | Listo | Hipótesis, regresión, series de tiempo, volatilidad, simulación y aprendizaje automático |
 | FRM Parte I | [Mercados y productos financieros](05_FRM/03_mercados_y_productos.ipynb) | Listo | Tasas, futuros, forwards, opciones, swaps, commodities, MBS y compensación central |
 | FRM Parte I | [Valoración y modelos de riesgo](05_FRM/04_valoracion_y_modelos_de_riesgo.ipynb) | Listo | VaR y ES, duración, árboles binomiales, griegas, crédito, riesgo operacional y estrés |
+| FRM avanzado | [Libro 1: fundamentos](06_FRM_advance/01_fundamentos_avanzado.ipynb) | Listo | Los 11 capítulos: tramos de CDO, cartera óptima con error de estimación, BCBS 239 con datos de la CMF y Metallgesellschaft con el cobre |
+| FRM avanzado | [Libro 2: análisis cuantitativo](06_FRM_advance/02_cuantitativo_avanzado.ipynb) | Listo | Los 15 capítulos: cópulas, minería de datos, sesgo por variable omitida, cointegración, variables de control y modelos de incumplimiento |
+| FRM avanzado | [Libro 3: mercados y productos](06_FRM_advance/03_mercados_productos_avanzado.ipynb) | Listo | Los 20 capítulos: capital bancario, exposición con colateral, paridad de tasas, exóticas, curva cero, MBS y CTD |
+| FRM avanzado | [Libro 4: valoración y riesgo](06_FRM_advance/04_valoracion_riesgo_avanzado.ipynb) | Listo | Los 16 capítulos: VaR de componentes, GARCH, IRB, valores extremos, estrés inverso, PCA de la curva y griegas |
 | Análisis de datos | [Segmentación de bancos chilenos](01_analisis_de_datos/01_segmentacion_bancos.ipynb) | Listo | Clustering con datos de la API de la CMF, k-means, Ward y PCA |
 
 ## Resultados destacados
@@ -50,6 +54,10 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 
 ![Estrategias con opciones sobre el dólar](05_FRM/figuras/estrategias_opciones.png)
 
+**FRM Parte I avanzado.** Los 62 capítulos del programa 2026 con 131 ejercicios resueltos en Python y 124 preguntas de práctica, integrando el material de estudio de mi proyecto frm-prep. Por ejemplo, con el precio real del cobre entre 2012 y 2017, una cobertura de ventas a precio fijo con futuros renovados conserva su valor económico, pero exige financiar 28 millones de dólares en llamados de margen, como le ocurrió a Metallgesellschaft.
+
+![Metallgesellschaft con el precio del cobre](06_FRM_advance/figuras/metallgesellschaft_cobre.png)
+
 **Aprendizaje en línea.** Mi tesis, reconstruida con datos públicos de ALeRCE y la librería river. Con datos estables gana el aprendizaje por lotes, pero cuando la regla del problema cambia, solo los modelos en línea se recuperan.
 
 ![Cambio de concepto](04_aprendizaje_en_linea/figuras/cambio_de_concepto.png)
@@ -75,11 +83,13 @@ Cada proyecto responde una pregunta concreta, usa datos reproducibles y termina 
 │   ├── sismos.py         scraping del catálogo del CSN, API del USGS y Gutenberg-Richter
 │   ├── en_linea.py       evaluación prequential, datos de ALeRCE y complejidad computacional
 │   ├── frm.py            fórmulas del programa FRM Parte I, validadas con ejemplos de referencia
+│   ├── frm_avanzado.py   curva cero, exóticas, VaR de componentes, IRB, valores extremos, estrés inverso y griegas
 │   └── graficos.py       estilo gráfico común y paleta apta para daltonismo
 ├── tests/                pruebas unitarias del paquete
 ├── datos/                datos públicos en caché para reproducir los resultados
 ├── 04_aprendizaje_en_linea/ tesis actualizada, con la versión original en legacy
 ├── 05_FRM/               casos trabajados para los cuatro libros del FRM Parte I
+├── 06_FRM_advance/       los 62 capítulos del FRM Parte I con ejercicios resueltos en Python
 └── archivo/              trabajos anteriores que no se mantienen
 ```
 
@@ -105,7 +115,7 @@ Los notebooks leen los datos desde `datos/`, así que entregan los mismos result
 - **Centro Sismológico Nacional y USGS.** Catálogo de sismos de sismologia.cl, extraído con web scraping, y catálogo mundial del Servicio Geológico de Estados Unidos.
 - **API del Banco Central de Chile.** Tasas swap promedio cámara en pesos y tasas de mercado secundario de bonos del Banco Central.
 - **API BEST de la CMF.** Indicadores de solvencia, rentabilidad, riesgo de crédito y actividad por banco, y tasas de depósitos por plazo, publicados por la Comisión para el Mercado Financiero.
-- **FRED.** Tasas de los bonos del Tesoro de Estados Unidos, de la Reserva Federal de St. Louis.
+- **FRED.** Tasas de los bonos del Tesoro de Estados Unidos, spread de los bonos corporativos Baa, spread TED, VIX, índice de precios de viviendas Case-Shiller y morosidad hipotecaria, de la Reserva Federal de St. Louis.
 - **ALeRCE y UCI.** Conjunto etiquetado del clasificador de curvas de luz de ALeRCE, publicado en Zenodo con licencia CC BY 4.0, y candidatos a púlsar HTRU2 del repositorio de la UCI.
 
 ## Trabajos anteriores
